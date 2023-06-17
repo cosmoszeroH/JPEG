@@ -130,6 +130,7 @@ ratio = 2
 
 image = 'lena_rgb.png'
 imageYCC = cv2.imread(image, cv2.COLOR_BGR2YCR_CB)
+imageYCC = cv2.resize(imageYCC, (512, 512))
 
 plt.imshow(imageYCC.astype(np.uint8))
 plt.show()
@@ -151,7 +152,7 @@ for m in range(a):
 luminance_quantization_table = multiply_matrix(mini_luminance_quantization_table, Y_array.shape)
 Y_array_process = encode_decode(Y_array, luminance_quantization_table)
 
-"""# giam kich thuoc cua Cb, Cr
+# giam kich thuoc cua Cb, Cr
 Cb_array_downsample = skimage.measure.block_reduce(Cb_array, block_size=(ratio, ratio), func=np.mean, cval=0)
 Cr_array_downsample = skimage.measure.block_reduce(Cr_array, block_size=(ratio, ratio), func=np.mean, cval=0)
 
@@ -161,11 +162,11 @@ Cb_array_downsample_process = encode_decode(Cb_array_downsample, chrominance_qua
 Cr_array_downsample_process = encode_decode(Cr_array_downsample, chrominance_quantization_table)
 
 Cb_array_process = upsample_matrix(Cb_array_downsample, ratio)
-Cr_array_process = upsample_matrix(Cr_array_downsample, ratio)"""
+Cr_array_process = upsample_matrix(Cr_array_downsample, ratio)
 
-chrominance_quantization_table = multiply_matrix(mini_chrominance_quantization_table, Cb_array.shape)
+"""chrominance_quantization_table = multiply_matrix(mini_chrominance_quantization_table, Cb_array.shape)
 Cb_array_process = encode_decode(Cb_array, chrominance_quantization_table)
-Cr_array_process = encode_decode(Cr_array, chrominance_quantization_table)
+Cr_array_process = encode_decode(Cr_array, chrominance_quantization_table)"""
 
 # chuyen khoang gia tri tu [-128; 127] ve [0; 255]
 for i in range(Y_array_process.shape[0]):
@@ -184,4 +185,4 @@ for i in range(compress_image.shape[0]):
 plt.imshow(compress_image.astype(np.uint8))
 plt.show()
 
-#cv2.imwrite('lena_compress.jpeg', compress_image)
+cv2.imwrite('lena_compress.jpeg', compress_image)
